@@ -36,8 +36,10 @@
 	<script>
 	function convertData(curState, tasks){
 		var teamNames = Object.keys(curState);
-		var teamsData = teamNames.map(function(n){ return{"name":n, tasks: tasks.map(t => curState[n].Tasks ? curState[n].Tasks[t.id] : "0")}});
-		return { tasks: tasks.map(t => t.id), teams: teamsData };
+		var teamsData = teamNames.map(function(n){ return{"name":n, tasks: tasks.map(function(t) { 
+			return curState[n].Tasks ? curState[n].Tasks[t.id] : "0";
+		})}});
+		return { tasks: tasks.map(function(t) {return t.id;}), teams: teamsData };
 	}
 	
 	function updateScoreboard(data){
@@ -47,7 +49,9 @@
 	}
 	
 	function updateStatements(tasks){
-		var statements = tasks.map(t => "## " + t.id + "\n\n" + t.md).join("\n\n");
+		var statements = tasks.map(function (t) { 
+			return "## " + t.id + "\n\n" + t.md).join("\n\n"); 
+		};
 		document.getElementById("statements").innerHTML = marked(statements);
 	}
 	</script>
@@ -76,11 +80,13 @@
 			var teams = Object.keys(lastRelease);
 			var tracks = teams.map(
 				function getTrack(team){
-					var yy = xx.map(x => data[x][team].Score);
+					var yy = xx.map(function(x) { 
+						return data[x][team].Score);
+					}
 					for(var i=1; i<yy.length; i++)
 						yy[i] = yy[i] + yy[i-1];
 					return {
-						x: xx.map((v,i) => i),
+						x: xx.map(function(v,i) {return i;}),
 						y: yy,
 						name: team,
 						type: 'scatter',
