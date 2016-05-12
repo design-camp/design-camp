@@ -55,7 +55,7 @@
 		
 	<script>
 	var fb = new Firebase("https://design-camp.firebaseio.com/camp/");
-	fb.child("CurrentState").once("value", function(snapshot) {
+	fb.child("CurrentState").on("value", function(snapshot) {
 		var data = snapshot.val();
 		var teams = Object.keys(data);
 		fb.child("Tasks").once("value", function(snapshot) {
@@ -68,7 +68,7 @@
 	showPlot();
 
 	function showPlot(){
-		fb.child("Releases").once("value", function(snapshot) {
+		fb.child("Releases").on("value", function(snapshot) {
 			var data = snapshot.val();
 			var xx = Object.keys(data).sort();
 			if (xx.length <= 1) return;
