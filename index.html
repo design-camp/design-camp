@@ -64,6 +64,8 @@
 		var teams = Object.keys(data);
 		teams = teams.sort(function(t1, t2){return data[t2].Score-data[t1].Score;});
 		
+		showPlot(teams);
+		
 		fb.child("Tasks").once("value", function(snapshot) {
 			var tasks = snapshot.val();
 			updateScoreboard(convertData(data, teams, tasks));
@@ -71,15 +73,13 @@
 		});
 	});
 	
-	showPlot();
 
-	function showPlot(){
+	function showPlot(teams){
 		fb.child("Releases").on("value", function(snapshot) {
 			var data = snapshot.val();
 			var xx = Object.keys(data).sort();
 			if (xx.length <= 1) return;
 			var lastRelease = data[xx[xx.length-1]];
-			var teams = Object.keys(lastRelease);
 			var tracks = teams.map(
 				function getTrack(team){
 					var yy = xx.map(function(x) { return data[x][team].Score});
@@ -92,7 +92,7 @@
 						type: 'scatter',
 						mode: 'lines',
 						line: {
-							width: 3
+							width: 5
 						}
 					}
 			});
