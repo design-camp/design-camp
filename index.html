@@ -5,6 +5,14 @@
 	<script src="marked.min.js"></script>	
 	<script src="mustache.min.js"></script>	
 	<script src="plotly-latest.min.js"></script>
+	<style>
+		th1 {
+			background-color: #F0F0F0;
+		}
+		td, th {
+			font-size: 16pt;
+		}
+	</style>
 </head>
 <body class="container">
 	
@@ -27,7 +35,7 @@
 			{{#teams}}
 				<tr>
 					<th>{{name}}</th>
-					<td>{{score}}</td>
+					<th>{{score}}</th>
 					{{#tasks}}
 					<td>{{.}}</td>
 					{{/tasks}}
