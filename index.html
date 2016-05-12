@@ -74,12 +74,13 @@
 	});
 	
 
-	function showPlot(teams){
+	function showPlot(){
 		fb.child("Releases").on("value", function(snapshot) {
 			var data = snapshot.val();
 			var xx = Object.keys(data).sort();
 			if (xx.length <= 1) return;
 			var lastRelease = data[xx[xx.length-1]];
+			var teams = Object.keys(lastRelease);
 			var tracks = teams.map(
 				function getTrack(team){
 					var yy = xx.map(function(x) { return data[x][team].Score});
