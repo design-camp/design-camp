@@ -19,6 +19,7 @@
 		<table class="table table-condensed">
 			<tr>
 				<th>Name</th>
+				<th>Score</th>
 				{{#tasks}}
 					<th>{{.}}</th>
 				{{/tasks}}
@@ -26,6 +27,7 @@
 			{{#teams}}
 				<tr>
 					<th>{{name}}</th>
+					<td>{{score}}</td>
 					{{#tasks}}
 					<td>{{.}}</td>
 					{{/tasks}}
@@ -35,10 +37,18 @@
 	</script>
 	<script>
 	function convertData(curState, teamNames, tasks){
-		var teamsData = teamNames.map(function(n){ return{"name":n, tasks: tasks.map(function(t) { 
-			return curState[n].Tasks ? curState[n].Tasks[t.id] : "0";
-		})}});
-		return { tasks: tasks.map(function(t) {return t.id;}), teams: teamsData };
+		var teamsData = teamNames.map(function(n){ 
+			return {
+				name:n, 
+				score:Math.round(curState[n].Score),
+				tasks: tasks.map(function(t) { 
+					return curState[n].Tasks ? curState[n].Tasks[t.id] : "0";
+				})
+				}});
+		return { 
+			tasks: tasks.map(function(t) {return t.id;}), 
+			teams: teamsData 
+			};
 	}
 	
 	function updateScoreboard(data){
