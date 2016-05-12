@@ -86,11 +86,17 @@
 			updateStatements(tasks);
 		});
 	});
-	
+	var nextReleaseTime;
 	fb.child("NextReleaseTime").on("value", function(snapshot){
-		var mins = Math.max(0, (new Date(snapshot.val()) - new Date()) / 1000 / 60);
-		document.getElementById("nextReleaseTime").innerHTML = Math.round(mins);
+		nextReleaseTime = new Date(snapshot.val());
+		setInterval(updateReleaseTimeSpan, 1000);
 	});
+	
+	function updateReleaseTimeSpan(){
+		var mins = Math.max(0, (nextReleaseTime - new Date()) / 1000 / 60);
+		document.getElementById("nextReleaseTime").innerHTML = Math.round(mins);
+		setTimer()
+	}
 	
 
 	function showPlot(){
