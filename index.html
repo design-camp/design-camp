@@ -42,7 +42,7 @@
 				name:n, 
 				score:Math.round(curState[n].Score),
 				tasks: tasks.map(function(t) { 
-					return curState[n].Tasks ? curState[n].Tasks[t.id] : "0";
+					return Math.round(curState[n].Tasks ? +curState[n].Tasks[t.id] : 0);
 				})
 				}});
 		return { 
