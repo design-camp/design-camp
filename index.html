@@ -74,16 +74,17 @@
 	fb.child("CurrentState")
 		.on("value", function(snapshot) {
 		var data = snapshot.val();
-		console.log(data);
-		var teams = Object.keys(data);
-		teams = teams.sort(function(t1, t2){return data[t2].Score-data[t1].Score;});
-		
-		showPlot(teams);
-		
+		if (data){
+			var teams = Object.keys(data);
+			teams = teams.sort(function(t1, t2){return data[t2].Score-data[t1].Score;});
+			
+			showPlot(teams);
+		}
 		fb.child("Tasks").once("value", function(snapshot) {
 			var tasks = snapshot.val();
-			updateScoreboard(convertData(data, teams, tasks));
 			updateStatements(tasks);
+			if (data)
+				updateScoreboard(convertData(data, teams, tasks));
 		});
 	});
 	var nextReleaseTime;
