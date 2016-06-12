@@ -16,7 +16,7 @@
 	<h1>Релизы</h1>
 	Минут до следующего релиза: <span id="nextReleaseTime"></span>
 	<div id="releasesPlot" style="width:100%;height:300px;"></div>
-	<a href="https://design-camp.firebaseio.com/camp.json">Полная информация в JSON</a>
+	<p><a href="https://design-camp.firebaseio.com/camp.json">Полная информация в JSON</a></p>
 	<h1>Формулировки заданий</h1>
 	<div id="statements" style="padding:50px"></div>
 	<script id="scoretable-template" type="text/template">
@@ -79,6 +79,9 @@
 			teams = teams.sort(function(t1, t2){return data[t2].Score-data[t1].Score;});
 			
 			showPlot(teams);
+		}
+		else{
+			document.getElementById("releasesPlot").style="display:none";
 		}
 		fb.child("Tasks").once("value", function(snapshot) {
 			var tasks = snapshot.val();
