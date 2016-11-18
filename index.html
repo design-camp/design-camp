@@ -1,5 +1,6 @@
-<html>
+﻿<html>
 <head>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" href="bootstrap.min.css">	
 	<script src="firebase.js"></script>	
 	<script src="marked.min.js"></script>	
@@ -11,10 +12,8 @@
 		}
 	</style>
 </head>
-<body class="container">
+<body class="container1">
 	<div id="scoretable"></div>
-	<h1>Релизы</h1>
-	Минут до следующего релиза: <span id="nextReleaseTime"></span>
 	<div id="releasesPlot" style="width:100%;height:300px;"></div>
 	<p><a href="https://design-camp.firebaseio.com/camp.json">Полная информация в JSON</a></p>
 	<h1>Формулировки заданий</h1>
@@ -44,6 +43,7 @@
 		var teamsData = teamNames.map(function(n){ 
 			return {
 				name:n, 
+				commit:curState[n].Commit,
 				score:Math.round(curState[n].Score),
 				tasks: tasks.map(function(t) { 
 					return Math.round(curState[n].Tasks ? +curState[n].Tasks[t.id] : 0);
@@ -90,17 +90,6 @@
 				updateScoreboard(convertData(data, teams, tasks));
 		});
 	});
-	var nextReleaseTime;
-	fb.child("NextReleaseTime").on("value", function(snapshot){
-		nextReleaseTime = new Date(snapshot.val());
-		setInterval(updateReleaseTimeSpan, 1000);
-	});
-	
-	function updateReleaseTimeSpan(){
-		var mins = Math.max(0, (nextReleaseTime - new Date()) / 1000 / 60);
-		document.getElementById("nextReleaseTime").innerHTML = Math.round(mins);
-	}
-	
 
 	function showPlot(){
 		fb.child("Releases").on("value", function(snapshot) {
@@ -111,7 +100,7 @@
 			var teams = Object.keys(lastRelease);
 			var tracks = teams.map(
 				function getTrack(team){
-					var yy = xx.map(function(x) { return data[x][team].Score});
+					var yy = xx.map(function(x) { return data[x][team].Score - (data[x][team].Penalty || 0) });
 					for(var i=1; i<yy.length; i++)
 						yy[i] = yy[i] + yy[i-1];
 					return {
