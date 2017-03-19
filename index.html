@@ -100,7 +100,7 @@
 			var teams = Object.keys(lastRelease);
 			var tracks = teams.map(
 				function getTrack(team){
-					var yy = xx.map(function(x) { return data[x][team].Score - (data[x][team].Penalty || 0) });
+					var yy = xx.map(function(x) { return data[x][team].Score + (data[x][team].Bonus || 0) - (data[x][team].Penalty || 0) });
 					for(var i=1; i<yy.length; i++)
 						yy[i] = yy[i] + yy[i-1];
 					return {
